@@ -109,10 +109,19 @@ function CatalogView() {
     }
   }, [queryParams])
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault()
-    updateQueryParams({ ...queryParams, search: searchInput, page: 1 })
-  }
+  useEffect(() => {
+    const normalizedSearch = searchInput.trim()
+
+    if (normalizedSearch === queryParams.search) {
+      return undefined
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      updateQueryParams({ ...queryParams, search: searchInput, page: 1 })
+    }, 300)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [searchInput, queryParams, updateQueryParams])
 
   const handleCategoryChange = (event) => {
     updateQueryParams({ ...queryParams, category: event.target.value, page: 1 })
@@ -210,7 +219,7 @@ function CatalogView() {
       </section>
 
       <section className="filters-panel">
-        <form className="catalog-search" onSubmit={handleSearchSubmit}>
+        <div className="catalog-search">
           <label htmlFor="product-search">Buscar producto</label>
           <div className="catalog-search-controls">
             <input
@@ -220,9 +229,8 @@ function CatalogView() {
               value={searchInput}
               onChange={(event) => setSearchInput(event.target.value)}
             />
-            <button type="submit" className="filters-reset cursor-pointer">Buscar</button>
           </div>
-        </form>
+        </div>
 
         <div className="filter-group">
           <label htmlFor="product-category">Categoría</label>

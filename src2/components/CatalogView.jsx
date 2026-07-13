@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { fetchCategories, fetchProducts, createProduct, updateProduct, deleteProduct } from '../services/productsService.js'
-import { showConfirmDialog, showProductFormModal, showSuccessAlert, showErrorAlert } from '../services/alertService.js'
+import { fetchCategories, fetchProducts } from '../services/productsService.js'
 import DataTable from './DataTable.jsx'
 import Pagination from './Pagination.jsx'
 
@@ -29,13 +28,11 @@ function CatalogView() {
 
   const updateQueryParams = useCallback((nextParams) => {
     const params = new URLSearchParams()
-    
-    // FIX DE SEGURIDAD: Evita que .trim() rompa la paginación si llega undefined
     const normalizedParams = {
       page: Math.max(1, Number(nextParams.page) || 1),
       limit: VALID_LIMITS.includes(Number(nextParams.limit)) ? Number(nextParams.limit) : 10,
-      search: (nextParams.search || '').trim(),
-      category: (nextParams.category || '').trim(),
+      search: nextParams.search.trim(),
+      category: nextParams.category.trim(),
     }
 
     if (normalizedParams.page > 1) params.set('page', normalizedParams.page)
@@ -123,64 +120,6 @@ function CatalogView() {
     updateQueryParams({ page: 1, limit: 10, search: '', category: '' })
   }
 
-  // ==========================================
-  // LÓGICA CRUD CON SWEETALERT2 (FASE 4)
-  // ==========================================
-
-  const handleCreateClick = async () => {
-    const productData = await showProductFormModal()
-    if (!productData) return
-
-    try {
-      const newProduct = await createProduct(productData)
-      setProducts((prevProducts) => [newProduct, ...prevProducts])
-      setTotal((prevTotal) => prevTotal + 1)
-      showSuccessAlert('¡Producto registrado!', `El producto "${newProduct.title}" fue agregado al catálogo exitosamente.`)
-    } catch (err) {
-      showErrorAlert('No se pudo crear el producto', err.message)
-    }
-  }
-
-  const handleEditClick = async (product) => {
-    const updatedData = await showProductFormModal(product)
-    if (!updatedData) return
-
-    const confirmed = await showConfirmDialog({
-      title: '¿Confirmas la edición?',
-      text: `Se modificarán los datos del registro #${product.id} en el sistema.`,
-      confirmButtonText: 'Sí, guardar cambios'
-    })
-    if (!confirmed) return
-
-    try {
-      const resultFromApi = await updateProduct(product.id, updatedData)
-      setProducts((prevProducts) =>
-        prevProducts.map((p) => (p.id === product.id ? { ...p, ...resultFromApi } : p))
-      )
-      showSuccessAlert('¡Cambios guardados!', `El producto #${product.id} fue actualizado correctamente.`)
-    } catch (err) {
-      showErrorAlert('No se pudo editar el producto', err.message)
-    }
-  }
-
-  const handleDeleteClick = async (product) => {
-    const confirmed = await showConfirmDialog({
-      title: '¿Eliminar este producto?',
-      text: `El registro "${product.title}" será eliminado permanentemente del catálogo.`,
-      confirmButtonText: 'Sí, eliminar'
-    })
-    if (!confirmed) return
-
-    try {
-      await deleteProduct(product.id)
-      setProducts((prevProducts) => prevProducts.filter((p) => p.id !== product.id))
-      setTotal((prevTotal) => Math.max(0, prevTotal - 1))
-      showSuccessAlert('¡Producto eliminado!', 'El registro fue borrado del catálogo.')
-    } catch (err) {
-      showErrorAlert('No se pudo eliminar el producto', err.message)
-    }
-  }
-
   return (
     <main className="catalog-view">
       <div className="dashboard-header">
@@ -188,14 +127,6 @@ function CatalogView() {
           <p className="section-kicker">AURAHOGAR</p>
           <h2 className="dashboard-title">Catálogo</h2>
         </div>
-        <button
-          type="button"
-          onClick={handleCreateClick}
-          className="dashboard-cta cursor-pointer"
-        >
-          <span className="material-symbols-outlined">add</span>
-          <span>Registrar nuevo producto</span>
-        </button>
       </div>
 
       <section className="dashboard-banner">
@@ -220,7 +151,7 @@ function CatalogView() {
               value={searchInput}
               onChange={(event) => setSearchInput(event.target.value)}
             />
-            <button type="submit" className="filters-reset cursor-pointer">Buscar</button>
+            <button type="submit" className="filters-reset">Buscar</button>
           </div>
         </form>
 
@@ -240,19 +171,13 @@ function CatalogView() {
           </select>
         </div>
 
-        <button type="button" className="filters-reset cursor-pointer" onClick={handleResetFilters}>
+        <button type="button" className="filters-reset" onClick={handleResetFilters}>
           <span className="material-symbols-outlined">filter_list</span>
           Reiniciar filtros
         </button>
       </section>
 
-      <DataTable
-        products={products}
-        loading={loading}
-        error={error}
-        onEdit={handleEditClick}
-        onDelete={handleDeleteClick}
-      />
+      <DataTable products={products} loading={loading} error={error} />
 
       {!loading && !error ? (
         <Pagination

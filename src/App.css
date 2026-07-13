@@ -221,8 +221,7 @@
 
 .field-group input,
 .filter-group select,
-.table-meta select,
-.navbar-search input {
+.table-meta select {
   width: 100%;
   border: 1px solid transparent;
   border-radius: 16px;
@@ -236,8 +235,7 @@
 
 .field-group input:focus,
 .filter-group select:focus,
-.table-meta select:focus,
-.navbar-search input:focus {
+.table-meta select:focus {
   outline: none;
   border-color: #ba9a91;
 }
@@ -444,30 +442,15 @@
   backdrop-filter: blur(12px);
 }
 
-.navbar-search {
-  position: relative;
-  flex: 1;
-  max-width: 420px;
-}
-
-.navbar-search .material-symbols-outlined {
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  transform: translateY(-50%);
-  color: rgba(79, 68, 65, 0.55);
-}
-
-.navbar-search input {
-  padding: 12px 18px 12px 48px;
-  border-radius: 999px;
-}
-
 .navbar-actions,
 .navbar-user {
   display: flex;
   align-items: center;
   gap: 14px;
+}
+
+.navbar-actions {
+  margin-left: auto;
 }
 
 .navbar-icon-button {
@@ -923,11 +906,6 @@
   .dashboard-content {
     margin-left: 0;
     padding-bottom: 32px;
-  }
-
-  .navbar-search {
-    width: 100%;
-    max-width: none;
   }
 
   .navbar-actions,

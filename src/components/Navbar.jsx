@@ -3,11 +3,6 @@ function Navbar({ user, onLogout }) {
 
   return (
     <header className="navbar">
-      <div className="navbar-search">
-        <span className="material-symbols-outlined">search</span>
-        <input type="text" placeholder="Buscar productos..." />
-      </div>
-
       <div className="navbar-actions">
         <button type="button" className="navbar-icon-button">
           <span className="material-symbols-outlined">notifications</span>

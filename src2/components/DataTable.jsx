@@ -1,4 +1,4 @@
-function DataTable({ products = [], loading, error, onEdit, onDelete }) {
+function DataTable({ products = [], loading, error }) {
   if (loading) {
     return <p className="catalog-state">Cargando catálogo...</p>
   }
@@ -57,25 +57,7 @@ function DataTable({ products = [], loading, error, onEdit, onDelete }) {
                     </span>
                   </td>
                   <td className="actions-column">
-                    {/* Reemplazamos "Próximamente" por los botones interactivos del CRUD */}
-                    <button
-                      type="button"
-                      onClick={() => onEdit(product)}
-                      className="text-button cursor-pointer"
-                      style={{ marginRight: '12px' }}
-                      title="Editar registro"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => onDelete(product)}
-                      className="text-button cursor-pointer"
-                      style={{ color: '#c94a4a' }}
-                      title="Eliminar registro"
-                    >
-                      Eliminar
-                    </button>
+                    <span className="table-action-placeholder">Próximamente</span>
                   </td>
                 </tr>
               )

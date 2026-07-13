@@ -677,6 +677,14 @@
   font-size: 0.9rem;
 }
 
+.table-action-placeholder {
+  color: #817471;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .filter-group {
   min-width: 170px;
   display: flex;
@@ -702,10 +710,6 @@
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .table-card {

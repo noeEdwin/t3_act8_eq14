@@ -1,10 +1,10 @@
 const navItems = [
-  { icon: 'inventory_2', label: 'Catalogo' },
-  { icon: 'history', label: 'Historial' },
+  { icon: 'inventory_2', label: 'Catalogo', view: 'catalog' },
+  { icon: 'history', label: 'Historial', view: 'history' },
   { icon: 'settings', label: 'Configuracion' },
 ]
 
-function Sidebar() {
+function Sidebar({ activeView, onNavigate }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
@@ -18,7 +18,8 @@ function Sidebar() {
             <li key={item.label}>
               <button
                 type="button"
-                className={`sidebar-link ${item.active ? 'sidebar-link-active' : ''}`}
+                className={`sidebar-link ${item.view === activeView ? 'sidebar-link-active' : ''}`}
+                onClick={() => item.view && onNavigate(item.view)}
               >
                 <span className="material-symbols-outlined">{item.icon}</span>
                 <span>{item.label}</span>

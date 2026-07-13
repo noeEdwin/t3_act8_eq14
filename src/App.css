@@ -589,6 +589,27 @@
   color: #735851;
 }
 
+.history-banner {
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 40px;
+  border: 1px solid rgba(211, 195, 191, 0.45);
+  border-radius: 4px;
+  background: linear-gradient(110deg, #fff8f6 0%, #f1e8f4 100%);
+}
+
+.history-banner p {
+  max-width: 520px;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  color: #735851;
+}
+
 .filters-panel {
   display: flex;
   flex-wrap: wrap;
@@ -685,6 +706,71 @@
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+.history-filters {
+  align-items: end;
+}
+
+.history-filters .filter-group {
+  flex: 1 1 150px;
+}
+
+.history-table-card {
+  margin-top: 16px;
+}
+
+.history-table th,
+.history-table td {
+  white-space: nowrap;
+}
+
+.history-table th {
+  padding-top: 18px;
+  padding-bottom: 18px;
+  font-size: 0.6rem;
+}
+
+.history-table td {
+  padding-top: 18px;
+  padding-bottom: 18px;
+  font-size: 0.78rem;
+}
+
+.history-table .product-copy {
+  min-width: 180px;
+}
+
+.history-table .product-copy span {
+  font-size: 0.8rem;
+}
+
+.history-table .product-copy small {
+  font-size: 0.66rem;
+}
+
+.history-table .status-pill {
+  padding: 5px 10px;
+  font-size: 0.52rem;
+}
+
+.history-table-footer {
+  min-height: 62px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.history-count,
+.history-pagination-gap {
+  color: #817471;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.history-pagination-gap {
+  letter-spacing: 0;
 }
 
 .cursor-pointer {

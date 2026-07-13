@@ -4,6 +4,43 @@
   background: #fff8f6;
 }
 
+.auth-success {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.auth-success-card {
+  width: min(100%, 520px);
+  padding: 36px;
+  border: 1px solid rgba(211, 195, 191, 0.75);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 20px 50px rgba(71, 56, 49, 0.08);
+}
+
+.auth-success-card h1 {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  color: #1e1b1a;
+}
+
+.auth-success-card p {
+  margin: 14px 0 0;
+  color: #4f4441;
+}
+
+.auth-success-eyebrow {
+  margin: 0 0 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #735851;
+}
+
 .login-page {
   position: relative;
   min-height: 100vh;
@@ -210,6 +247,17 @@
   justify-content: flex-end;
 }
 
+.field-error,
+.submit-error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #ba1a1a;
+}
+
+.submit-error {
+  margin-bottom: 14px;
+}
+
 .text-button,
 .footer-link {
   border: none;
@@ -248,6 +296,11 @@
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+
+.primary-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 
 .primary-button:hover,

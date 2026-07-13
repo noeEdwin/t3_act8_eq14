@@ -1,17 +1,21 @@
 import { useState } from 'react'
-import LoginPage from './pages/LoginPage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
+import LoginPage from './pages/LoginPage.jsx'
+import { loginUser } from './services/authService.js'
 import './App.css'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
 
-  const handleLogin = () => {
+  const handleLogin = async ({ identifier, password }) => {
+    const user = await loginUser({ identifier, password })
+
     setCurrentUser({
-      firstName: 'Edwin',
-      lastName: 'Chavez',
-      username: 'edwin',
-      image: '',
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      image: user.image,
+      email: user.email,
     })
   }
 

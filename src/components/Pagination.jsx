@@ -1,4 +1,13 @@
-function Pagination({ currentPage = 1, total = 0, limit = 10, onPageChange, onLimitChange }) {
+function Pagination({
+  currentPage = 1,
+  total = 0,
+  limit = 10,
+  onPageChange,
+  onLimitChange,
+  className = '',
+  totalLabel = 'productos',
+  limitId = 'page-limit',
+}) {
   const totalPages = Math.max(1, Math.ceil(total / limit))
   const pages = []
 
@@ -11,11 +20,11 @@ function Pagination({ currentPage = 1, total = 0, limit = 10, onPageChange, onLi
   }
 
   return (
-    <div className="table-footer">
+    <div className={`table-footer ${className}`.trim()}>
       <div className="table-meta">
-        <label htmlFor="page-limit">Mostrar</label>
+        <label htmlFor={limitId}>Mostrar</label>
         <select
-          id="page-limit"
+          id={limitId}
           value={limit}
           onChange={(event) => onLimitChange(Number(event.target.value))}
         >
@@ -24,7 +33,7 @@ function Pagination({ currentPage = 1, total = 0, limit = 10, onPageChange, onLi
           <option value="40">40</option>
           <option value="50">50</option>
         </select>
-        <span>{total} productos</span>
+        <span>{total} {totalLabel}</span>
       </div>
 
       <div className="pagination">

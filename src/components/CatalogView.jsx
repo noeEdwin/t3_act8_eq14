@@ -5,6 +5,7 @@ import DataTable from './DataTable.jsx'
 import Pagination from './Pagination.jsx'
 
 const VALID_LIMITS = [10, 20, 40, 50]
+const CATALOG_QUERY_KEYS = ['page', 'limit', 'search', 'category']
 
 function readQueryParams() {
   const params = new URLSearchParams(window.location.search)
@@ -28,15 +29,16 @@ function CatalogView() {
   const [error, setError] = useState('')
 
   const updateQueryParams = useCallback((nextParams) => {
-    const params = new URLSearchParams()
-    
-    // FIX DE SEGURIDAD: Evita que .trim() rompa la paginación si llega undefined
+    const params = new URLSearchParams(window.location.search)
+
     const normalizedParams = {
       page: Math.max(1, Number(nextParams.page) || 1),
       limit: VALID_LIMITS.includes(Number(nextParams.limit)) ? Number(nextParams.limit) : 10,
       search: (nextParams.search || '').trim(),
       category: (nextParams.category || '').trim(),
     }
+
+    CATALOG_QUERY_KEYS.forEach((key) => params.delete(key))
 
     if (normalizedParams.page > 1) params.set('page', normalizedParams.page)
     if (normalizedParams.limit !== 10) params.set('limit', normalizedParams.limit)

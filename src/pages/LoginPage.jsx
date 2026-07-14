@@ -56,7 +56,7 @@ function LoginPage({ onLogin }) {
         identifier: formValues.identifier,
         password: formValues.password,
       })
-    } catch (error) {
+    } catch {
       setSubmitError('Usuario o contraseña incorrectos')
     } finally {
       setIsSubmitting(false)

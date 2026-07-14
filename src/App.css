@@ -447,6 +447,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
 }
 
 .navbar-actions {
@@ -480,6 +481,7 @@
 
 .navbar-user-copy {
   text-align: right;
+  min-width: 0;
 }
 
 .avatar-placeholder {
@@ -505,12 +507,21 @@
   color: #4f4441;
 }
 
+.navbar-user-copy strong,
+.navbar-username {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .secondary-button {
   padding: 12px 18px;
   border-radius: 999px;
   background: #f4ecea;
   color: #49322c;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .dashboard-header {
@@ -537,6 +548,7 @@
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .dashboard-banner,
@@ -693,6 +705,11 @@
   padding: 12px 14px;
 }
 
+.table-meta select {
+  width: auto;
+  min-width: 86px;
+}
+
 .filters-reset {
   display: inline-flex;
   align-items: center;
@@ -796,10 +813,12 @@
 
 .table-scroll {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .products-table {
   width: 100%;
+  min-width: 860px;
   border-collapse: collapse;
 }
 
@@ -1048,6 +1067,7 @@
 .settings-field select,
 .settings-field textarea {
   width: 100%;
+  min-width: 0;
   border: 1px solid transparent;
   border-radius: 16px;
   background: #faf2f0;
@@ -1120,7 +1140,76 @@
   opacity: 0.75;
 }
 
+.aura-swal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 12px;
+  text-align: left;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.aura-swal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.aura-swal-field label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #735851;
+}
+
+.aura-swal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.aura-swal-control {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  margin: 0;
+  padding: 0 12px;
+  border: 1px solid rgba(211, 195, 191, 0.9);
+  border-radius: 14px;
+  background: #faf2f0;
+  color: #1e1b1a;
+  font: inherit;
+}
+
+.aura-swal-control:focus {
+  outline: none;
+  border-color: #ba9a91;
+}
+
+@media (max-width: 1180px) {
+  .sidebar {
+    width: 224px;
+  }
+
+  .sidebar-brand,
+  .sidebar-link {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .dashboard-content {
+    margin-left: 224px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
 @media (max-width: 900px) {
+  .login-page {
+    padding: 0 18px;
+  }
+
   .login-header,
   .login-footer,
   .dashboard-content {
@@ -1144,7 +1233,6 @@
   .table-footer,
   .filters-panel,
   .dashboard-header,
-  .navbar,
   .login-footer,
   .settings-card-header,
   .settings-actions {
@@ -1160,15 +1248,55 @@
     justify-content: center;
   }
 
+  .login-main {
+    min-height: calc(100vh - 150px);
+    padding: 28px 0;
+  }
+
   .sidebar {
     position: static;
     width: 100%;
-    padding: 24px 0;
+    padding: 22px 0 18px;
+  }
+
+  .sidebar-brand {
+    padding: 0 24px;
+    margin-bottom: 18px;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 0 24px 4px;
+    scrollbar-width: none;
+  }
+
+  .sidebar-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar-link {
+    width: auto;
+    padding: 12px 16px;
+    border: 1px solid rgba(211, 195, 191, 0.7);
+    border-radius: 999px;
+    background: #fff8f6;
+    white-space: nowrap;
+  }
+
+  .sidebar-link-active::after {
+    display: none;
   }
 
   .dashboard-content {
     margin-left: 0;
     padding-bottom: 32px;
+  }
+
+  .navbar {
+    min-height: auto;
+    padding: 16px 0;
   }
 
   .navbar-actions,
@@ -1177,21 +1305,215 @@
     flex-wrap: wrap;
   }
 
-  .navbar {
-    align-items: center;
-  }
-
   .navbar-actions {
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-between;
+  }
+
+  .navbar-user-copy {
+    text-align: left;
+  }
+
+  .dashboard-header {
+    margin: 24px 0 18px;
+  }
+
+  .dashboard-cta {
+    justify-content: center;
   }
 
   .dashboard-banner-copy {
     padding: 24px;
   }
 
+  .filters-panel > *,
+  .dashboard-cta,
+  .catalog-search,
+  .filter-group,
+  .filters-reset {
+    width: 100%;
+  }
+
+  .filters-reset {
+    justify-content: center;
+  }
+
+  .table-footer {
+    align-items: stretch;
+  }
+
+  .table-meta,
+  .pagination {
+    width: 100%;
+  }
+
+  .pagination {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
   .products-table th,
   .products-table td {
     padding: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .login-header {
+    min-height: 68px;
+  }
+
+  .brand-wordmark,
+  .sidebar-title {
+    font-size: 1.35rem;
+    letter-spacing: 0.14em;
+  }
+
+  .login-header-actions,
+  .login-footer-links {
+    gap: 12px;
+  }
+
+  .login-card {
+    padding: 24px;
+    border-radius: 20px;
+  }
+
+  .login-footer {
+    min-height: auto;
+    padding: 16px 0 24px;
+  }
+
+  .dashboard-content {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .navbar-icon-button,
+  .navbar-separator {
+    display: none;
+  }
+
+  .dashboard-title {
+    font-size: clamp(1.85rem, 10vw, 2.35rem);
+  }
+
+  .dashboard-cta,
+  .primary-button {
+    padding: 15px 18px;
+    letter-spacing: 0.12em;
+  }
+
+  .dashboard-banner {
+    height: 190px;
+  }
+
+  .history-banner,
+  .settings-hero,
+  .settings-card {
+    padding: 22px;
+  }
+
+  .history-banner p,
+  .dashboard-banner-copy p {
+    font-size: 1.15rem;
+  }
+
+  .table-card,
+  .filters-panel,
+  .dashboard-banner,
+  .settings-hero,
+  .settings-card,
+  .catalog-state {
+    border-radius: 16px;
+  }
+
+  .table-footer {
+    padding: 16px;
+  }
+
+  .table-meta {
+    gap: 10px;
+  }
+
+  .page-button {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+  }
+
+  .settings-form-grid {
+    gap: 14px;
+  }
+
+  .swal2-popup {
+    width: calc(100% - 24px) !important;
+    padding: 22px !important;
+  }
+
+  .aura-swal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 430px) {
+  .login-page {
+    padding: 0 12px;
+  }
+
+  .login-card {
+    padding: 20px;
+  }
+
+  .login-footer-links,
+  .navbar-actions {
+    width: 100%;
+  }
+
+  .navbar-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navbar-user {
+    justify-content: space-between;
+  }
+
+  .secondary-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .sidebar-brand,
+  .sidebar-nav {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .sidebar-link {
+    padding: 11px 13px;
+    font-size: 0.92rem;
+  }
+
+  .dashboard-banner {
+    height: 160px;
+  }
+
+  .dashboard-banner-copy,
+  .history-banner,
+  .filters-panel,
+  .settings-hero,
+  .settings-card,
+  .catalog-state {
+    padding: 18px;
+  }
+
+  .products-table {
+    min-width: 740px;
+  }
+
+  .history-table {
+    min-width: 700px;
   }
 }

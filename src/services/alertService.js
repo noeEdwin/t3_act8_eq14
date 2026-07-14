@@ -35,23 +35,23 @@ export async function showProductFormModal(initialData = null) {
   const result = await Swal.fire({
     title: isEditing ? 'Editar Producto' : 'Registrar Nuevo Producto',
     html: `
-      <div class="flex flex-col gap-4 text-left mt-2 font-sans">
-        <div>
-          <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Nombre del producto *</label>
-          <input id="swal-title" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3" placeholder="Ej: Sofá Nórdico Minimal" value="${initialData?.title || ''}">
+      <div class="aura-swal-form">
+        <div class="aura-swal-field">
+          <label for="swal-title">Nombre del producto *</label>
+          <input id="swal-title" class="aura-swal-control" placeholder="Ej: Sofá Nórdico Minimal" value="${initialData?.title || ''}">
         </div>
-        <div>
-          <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Categoría *</label>
-          <input id="swal-category" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3" placeholder="Ej: furniture, beauty, fragrances" value="${initialData?.category || ''}">
+        <div class="aura-swal-field">
+          <label for="swal-category">Categoría *</label>
+          <input id="swal-category" class="aura-swal-control" placeholder="Ej: furniture, beauty, fragrances" value="${initialData?.category || ''}">
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Precio ($) *</label>
-            <input id="swal-price" type="number" step="0.01" min="0" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3" placeholder="0.00" value="${initialData?.price !== undefined ? initialData.price : ''}">
+        <div class="aura-swal-grid">
+          <div class="aura-swal-field">
+            <label for="swal-price">Precio ($) *</label>
+            <input id="swal-price" type="number" step="0.01" min="0" class="aura-swal-control" placeholder="0.00" value="${initialData?.price !== undefined ? initialData.price : ''}">
           </div>
-          <div>
-            <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Stock (u.) *</label>
-            <input id="swal-stock" type="number" min="0" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3" placeholder="0" value="${initialData?.stock !== undefined ? initialData.stock : ''}">
+          <div class="aura-swal-field">
+            <label for="swal-stock">Stock (u.) *</label>
+            <input id="swal-stock" type="number" min="0" class="aura-swal-control" placeholder="0" value="${initialData?.stock !== undefined ? initialData.stock : ''}">
           </div>
         </div>
       </div>
@@ -110,35 +110,35 @@ export async function showSaleFormModal(categories = [], initialData = null) {
   const result = await Swal.fire({
     title: isEditing ? 'Editar Venta' : 'Registrar Nueva Venta',
     html: `
-      <div class="flex flex-col gap-4 text-left mt-2 font-sans">
-        <div>
-          <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Producto *</label>
-          <input id="swal-sale-product" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3" placeholder="Ej: Sofá Nórdico Minimal" value="${initialData?.product || ''}">
+      <div class="aura-swal-form">
+        <div class="aura-swal-field">
+          <label for="swal-sale-product">Producto *</label>
+          <input id="swal-sale-product" class="aura-swal-control" placeholder="Ej: Sofá Nórdico Minimal" value="${initialData?.product || ''}">
         </div>
-        <div>
-          <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Marca *</label>
-          <input id="swal-sale-brand" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3" placeholder="Ej: Aura Hogar" value="${initialData?.brand || 'Aura Hogar'}">
+        <div class="aura-swal-field">
+          <label for="swal-sale-brand">Marca *</label>
+          <input id="swal-sale-brand" class="aura-swal-control" placeholder="Ej: Aura Hogar" value="${initialData?.brand || 'Aura Hogar'}">
         </div>
-        <div>
-          <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Categoría *</label>
-          <select id="swal-sale-category" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3">
+        <div class="aura-swal-field">
+          <label for="swal-sale-category">Categoría *</label>
+          <select id="swal-sale-category" class="aura-swal-control">
             <option value="">Selecciona una categoría</option>
             ${categoryOptions}
           </select>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Unidades *</label>
-            <input id="swal-sale-units" type="number" min="1" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3" placeholder="1" value="${initialData?.units || 1}">
+        <div class="aura-swal-grid">
+          <div class="aura-swal-field">
+            <label for="swal-sale-units">Unidades *</label>
+            <input id="swal-sale-units" type="number" min="1" class="aura-swal-control" placeholder="1" value="${initialData?.units || 1}">
           </div>
-          <div>
-            <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Total ($) *</label>
-            <input id="swal-sale-total" type="number" step="0.01" min="0.01" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3" placeholder="0.00" value="${initialData?.total ?? ''}">
+          <div class="aura-swal-field">
+            <label for="swal-sale-total">Total ($) *</label>
+            <input id="swal-sale-total" type="number" step="0.01" min="0.01" class="aura-swal-control" placeholder="0.00" value="${initialData?.total ?? ''}">
           </div>
         </div>
-        <div>
-          <label class="block text-xs font-bold text-[#735851] uppercase tracking-wider mb-1">Estado *</label>
-          <select id="swal-sale-status" class="swal2-input !m-0 !w-full !rounded-lg !border-gray-300 !text-sm !h-10 px-3">
+        <div class="aura-swal-field">
+          <label for="swal-sale-status">Estado *</label>
+          <select id="swal-sale-status" class="aura-swal-control">
             <option value="sent" ${initialData?.statusValue === 'sent' || !initialData ? 'selected' : ''}>Enviado</option>
             <option value="pending" ${initialData?.statusValue === 'pending' ? 'selected' : ''}>Pendiente</option>
             <option value="processing" ${initialData?.statusValue === 'processing' ? 'selected' : ''}>Preparando</option>

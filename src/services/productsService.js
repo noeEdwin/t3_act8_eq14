@@ -1,5 +1,30 @@
 // URL base de la API para el módulo de productos
 const BASE_URL = 'https://dummyjson.com/products'
+const LOW_STOCK_THRESHOLD = 15
+
+function matchesStockStatus(product, stockStatus) {
+  const stock = Number(product.stock) || 0
+
+  if (stockStatus === 'in-stock') {
+    return stock > LOW_STOCK_THRESHOLD
+  }
+
+  if (stockStatus === 'low-stock') {
+    return stock > 0 && stock <= LOW_STOCK_THRESHOLD
+  }
+
+  if (stockStatus === 'out-of-stock') {
+    return stock <= 0
+  }
+
+  return true
+}
+
+async function fetchProductsCollection(url) {
+  return fetch(url).then((res) =>
+    handleResponse(res, 'No se pudieron cargar los productos del catálogo.'),
+  )
+}
 
 // Procesa las respuestas HTTP y formatea los errores en español para la UI
 async function handleResponse(response, defaultErrorMessage) {
@@ -18,42 +43,68 @@ async function handleResponse(response, defaultErrorMessage) {
   return await response.json()
 }
 
-// Obtiene el catálogo con soporte para paginación, búsqueda y filtro por categoría
-export async function fetchProducts({ page = 1, limit = 10, search = '', category = '' } = {}) {
+// Obtiene el catálogo con soporte para paginación, búsqueda y filtros
+export async function fetchProducts({
+  page = 1,
+  limit = 10,
+  search = '',
+  category = '',
+  stockStatus = '',
+} = {}) {
   try {
-    // Cálculo de paginación según el estándar de DummyJSON: skip = (page - 1) * limit
     const validPage = Math.max(1, Number(page) || 1)
     const validLimit = Math.max(1, Number(limit) || 10)
     const skip = (validPage - 1) * validLimit
 
-    let url = `${BASE_URL}?limit=${validLimit}&skip=${skip}`
-
     const cleanSearch = search.trim()
     const cleanCategory = category.trim()
+    const cleanStockStatus = stockStatus.trim()
     const isFilteringCategory = cleanCategory && cleanCategory !== 'all' && cleanCategory !== 'todas'
+    const needsLocalCategoryFilter = cleanSearch && isFilteringCategory
+    const needsLocalStockFilter = Boolean(cleanStockStatus)
+    const needsLocalFiltering = needsLocalCategoryFilter || needsLocalStockFilter
 
-    // Selección dinámica del endpoint según los filtros activos en la pantalla
+    let endpoint = BASE_URL
+
     if (cleanSearch) {
-      url = `${BASE_URL}/search?q=${encodeURIComponent(cleanSearch)}&limit=${validLimit}&skip=${skip}`
+      endpoint = `${BASE_URL}/search?q=${encodeURIComponent(cleanSearch)}`
     } else if (isFilteringCategory) {
-      url = `${BASE_URL}/category/${encodeURIComponent(cleanCategory)}?limit=${validLimit}&skip=${skip}`
+      endpoint = `${BASE_URL}/category/${encodeURIComponent(cleanCategory)}`
     }
 
-    const data = await fetch(url).then((res) =>
-      handleResponse(res, 'No se pudieron cargar los productos del catálogo.')
-    )
+    if (needsLocalFiltering) {
+      const separator = endpoint.includes('?') ? '&' : '?'
+      const initialData = await fetchProductsCollection(`${endpoint}${separator}limit=1&skip=0`)
+      const totalResults = Math.max(0, Number(initialData.total) || 0)
 
-    // Si se busca por texto y por categoría a la vez, filtramos los resultados localmente
-    if (cleanSearch && isFilteringCategory) {
-      const filteredProducts = data.products.filter((prod) =>
-        prod.category.toLowerCase() === cleanCategory.toLowerCase()
-      )
+      if (totalResults === 0) {
+        return {
+          ...initialData,
+          products: [],
+          total: 0,
+        }
+      }
+
+      const allData = await fetchProductsCollection(`${endpoint}${separator}limit=${totalResults}&skip=0`)
+      const filteredProducts = allData.products
+        .filter((product) => {
+          if (needsLocalCategoryFilter) {
+            return product.category.toLowerCase() === cleanCategory.toLowerCase()
+          }
+
+          return true
+        })
+        .filter((product) => matchesStockStatus(product, cleanStockStatus))
+
       return {
-        ...data,
-        products: filteredProducts,
+        ...allData,
+        products: filteredProducts.slice(skip, skip + validLimit),
         total: filteredProducts.length,
       }
     }
+
+    const separator = endpoint.includes('?') ? '&' : '?'
+    const data = await fetchProductsCollection(`${endpoint}${separator}limit=${validLimit}&skip=${skip}`)
 
     return data
   } catch (error) {

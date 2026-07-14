@@ -5,7 +5,7 @@ import DataTable from './DataTable.jsx'
 import Pagination from './Pagination.jsx'
 
 const VALID_LIMITS = [10, 20, 40, 50]
-const CATALOG_QUERY_KEYS = ['page', 'limit', 'search', 'category']
+const CATALOG_QUERY_KEYS = ['page', 'limit', 'search', 'category', 'stockStatus']
 
 function readQueryParams() {
   const params = new URLSearchParams(window.location.search)
@@ -16,6 +16,7 @@ function readQueryParams() {
     limit: VALID_LIMITS.includes(limit) ? limit : 10,
     search: params.get('search') || '',
     category: params.get('category') || '',
+    stockStatus: params.get('stockStatus') || '',
   }
 }
 
@@ -36,6 +37,7 @@ function CatalogView() {
       limit: VALID_LIMITS.includes(Number(nextParams.limit)) ? Number(nextParams.limit) : 10,
       search: (nextParams.search || '').trim(),
       category: (nextParams.category || '').trim(),
+      stockStatus: (nextParams.stockStatus || '').trim(),
     }
 
     CATALOG_QUERY_KEYS.forEach((key) => params.delete(key))
@@ -44,6 +46,7 @@ function CatalogView() {
     if (normalizedParams.limit !== 10) params.set('limit', normalizedParams.limit)
     if (normalizedParams.search) params.set('search', normalizedParams.search)
     if (normalizedParams.category) params.set('category', normalizedParams.category)
+    if (normalizedParams.stockStatus) params.set('stockStatus', normalizedParams.stockStatus)
 
     const queryString = params.toString()
     window.history.pushState(
@@ -129,9 +132,13 @@ function CatalogView() {
     updateQueryParams({ ...queryParams, category: event.target.value, page: 1 })
   }
 
+  const handleStockStatusChange = (event) => {
+    updateQueryParams({ ...queryParams, stockStatus: event.target.value, page: 1 })
+  }
+
   const handleResetFilters = () => {
     setSearchInput('')
-    updateQueryParams({ page: 1, limit: 10, search: '', category: '' })
+    updateQueryParams({ page: 1, limit: 10, search: '', category: '', stockStatus: '' })
   }
 
   // ==========================================
@@ -247,6 +254,20 @@ function CatalogView() {
                 {category.name}
               </option>
             ))}
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label htmlFor="product-stock-status">Estado de stock</label>
+          <select
+            id="product-stock-status"
+            value={queryParams.stockStatus}
+            onChange={handleStockStatusChange}
+          >
+            <option value="">Todos los estados</option>
+            <option value="in-stock">En stock</option>
+            <option value="low-stock">Pocas unidades</option>
+            <option value="out-of-stock">Agotado</option>
           </select>
         </div>
 

@@ -1,7 +1,7 @@
 const navItems = [
   { icon: 'inventory_2', label: 'Catalogo', view: 'catalog' },
   { icon: 'history', label: 'Historial', view: 'history' },
-  { icon: 'settings', label: 'Configuracion' },
+  { icon: 'settings', label: 'Configuracion', view: 'settings' },
 ]
 
 function Sidebar({ activeView, onNavigate }) {

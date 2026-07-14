@@ -37,7 +37,13 @@ function DataTable({ products = [], loading, error, onEdit, onDelete }) {
           </thead>
           <tbody>
             {products.map((product) => {
-              const inStock = product.stock > 0
+              const stock = Number(product.stock) || 0
+              const status =
+                stock <= 0
+                  ? { label: 'Agotado', className: 'status-empty' }
+                  : stock <= 15
+                    ? { label: 'Pocas unidades', className: 'status-muted' }
+                    : { label: 'En stock', className: 'status-success' }
 
               return (
                 <tr key={product.id}>
@@ -50,12 +56,10 @@ function DataTable({ products = [], loading, error, onEdit, onDelete }) {
                   </td>
                   <td>{product.category}</td>
                   <td>{product.stock} u.</td>
-                  <td className="product-price">${Number(product.price).toFixed(2)}</td>
-                  <td>
-                    <span className={`status-pill ${inStock ? 'status-success' : 'status-empty'}`}>
-                      {inStock ? 'En stock' : 'Agotado'}
-                    </span>
-                  </td>
+                    <td className="product-price">${Number(product.price).toFixed(2)}</td>
+                    <td>
+                      <span className={`status-pill ${status.className}`}>{status.label}</span>
+                    </td>
                   <td className="actions-column">
                     {/* Reemplazamos "Próximamente" por los botones interactivos del CRUD */}
                     <button

@@ -371,9 +371,23 @@ function HistoryView() {
                   <tr key={sale.id}>
                     <td className="product-code">{sale.id}</td>
                     <td>
-                      <div className="product-copy">
-                        <span>{sale.product}</span>
-                        <small>{sale.detail}</small>
+                      <div className="product-cell">
+                        {sale.image ? (
+                          <img
+                            className="product-thumbnail"
+                            src={sale.image}
+                            alt={sale.product}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <span className="product-thumbnail-placeholder" aria-hidden="true">
+                            <span className="material-symbols-outlined">image</span>
+                          </span>
+                        )}
+                        <div className="product-copy">
+                          <span>{sale.product}</span>
+                          <small>{sale.detail}</small>
+                        </div>
                       </div>
                     </td>
                     <td>{sale.category}</td>

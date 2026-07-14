@@ -72,6 +72,7 @@ function mapProductToSale(product) {
     status: status.label,
     statusValue: status.value,
     statusClass: status.className,
+    image: product.thumbnail || product.images?.[0] || '',
     saleDate,
     source: 'remote',
   }
@@ -100,6 +101,7 @@ export function createSaleRecord({ product, brand, category, units, total, statu
     status: normalizedStatus.label,
     statusValue: normalizedStatus.value,
     statusClass: normalizedStatus.className,
+    image: '',
     saleDate,
     source: 'custom',
   }

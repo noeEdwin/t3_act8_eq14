@@ -38,6 +38,7 @@ function DataTable({ products = [], loading, error, onEdit, onDelete }) {
           <tbody>
             {products.map((product) => {
               const stock = Number(product.stock) || 0
+              const productImage = product.thumbnail || product.images?.[0]
               const status =
                 stock <= 0
                   ? { label: 'Agotado', className: 'status-empty' }
@@ -49,9 +50,23 @@ function DataTable({ products = [], loading, error, onEdit, onDelete }) {
                 <tr key={product.id}>
                   <td className="product-code">#{product.id}</td>
                   <td>
-                    <div className="product-copy">
-                      <span>{product.title}</span>
-                      <small>{product.brand || 'Aura Hogar'}</small>
+                    <div className="product-cell">
+                      {productImage ? (
+                        <img
+                          className="product-thumbnail"
+                          src={productImage}
+                          alt={product.title}
+                          loading="lazy"
+                        />
+                      ) : (
+                        <span className="product-thumbnail-placeholder" aria-hidden="true">
+                          <span className="material-symbols-outlined">image</span>
+                        </span>
+                      )}
+                      <div className="product-copy">
+                        <span>{product.title}</span>
+                        <small>{product.brand || 'Aura Hogar'}</small>
+                      </div>
                     </div>
                   </td>
                   <td>{product.category}</td>
